@@ -1,0 +1,39 @@
+alias: Dining Room Motion Lights
+description: ""
+triggers:
+  - entity_id: binary_sensor.dining_room_hue_motion_sensor
+    to: "on"
+    trigger: state
+  - entity_id: binary_sensor.dining_room_hue_motion_sensor
+    to: "off"
+    for: "00:10:00"
+    trigger: state
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.dining_room_hue_motion_sensor
+            state: "on"
+          - condition: numeric_state
+            entity_id: sensor.dining_room_hue_motion_sensor_illuminance
+            below: 18
+        sequence:
+          - target:
+              entity_id:
+                - switch.smart_plug_6
+                - switch.smart_plug_5
+            action: switch.turn_on
+            data: {}
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.dining_room_hue_motion_sensor
+            state: "off"
+        sequence:
+          - target:
+              entity_id:
+                - switch.smart_plug_6
+                - switch.smart_plug_5
+            action: switch.turn_off
+            data: {}
+mode: restart
