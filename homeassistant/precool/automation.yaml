@@ -1,11 +1,11 @@
 alias: HVAC Pre-cool and TOU Actions
 description: Run HVAC pre-cool script with different actions on specific summer times
 triggers:
+  - at: "14:00:00"
+    trigger: time
   - at: "15:00:00"
     trigger: time
   - at: "16:00:00"
-    trigger: time
-  - at: "17:00:00"
     trigger: time
   - at: "17:55:00"
     trigger: time
@@ -18,6 +18,13 @@ actions:
   - choose:
       - conditions:
           - condition: template
+            value_template: "{{ now().strftime('%H:%M') == '14:00' }}"
+        sequence:
+          - data:
+              action: decrease_1
+            action: python_script.hvac_pre_cool_and_time_of_use
+      - conditions:
+          - condition: template
             value_template: "{{ now().strftime('%H:%M') == '15:00' }}"
         sequence:
           - data:
@@ -26,13 +33,6 @@ actions:
       - conditions:
           - condition: template
             value_template: "{{ now().strftime('%H:%M') == '16:00' }}"
-        sequence:
-          - data:
-              action: decrease_1
-            action: python_script.hvac_pre_cool_and_time_of_use
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '17:00' }}"
         sequence:
           - data:
               action: decrease_1
