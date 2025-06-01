@@ -1,54 +1,26 @@
 alias: HVAC Pre-cool and TOU Actions
 description: Run HVAC pre-cool script with different actions on specific summer times
 triggers:
-  - at: "14:00:00"
-    trigger: time
-  - at: "15:00:00"
-    trigger: time
-  - at: "16:00:00"
-    trigger: time
-  - at: "17:55:00"
-    trigger: time
-  - at: "21:05:00"
+  - at:
+      - "14:00:00"
+      - "15:00:00"
+      - "16:00:00"
+      - "17:55:00"
+      - "21:05:00"
     trigger: time
 conditions:
   - condition: template
     value_template: "{{ now().month in [4, 5, 6, 7, 8, 9] }}"
 actions:
-  - choose:
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '14:00' }}"
-        sequence:
-          - data:
-              action: decrease_1
-            action: python_script.hvac_pre_cool_and_time_of_use
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '15:00' }}"
-        sequence:
-          - data:
-              action: decrease_1
-            action: python_script.hvac_pre_cool_and_time_of_use
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '16:00' }}"
-        sequence:
-          - data:
-              action: decrease_1
-            action: python_script.hvac_pre_cool_and_time_of_use
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '17:55' }}"
-        sequence:
-          - data:
-              action: "off"
-            action: python_script.hvac_pre_cool_and_time_of_use
-      - conditions:
-          - condition: template
-            value_template: "{{ now().strftime('%H:%M') == '21:05' }}"
-        sequence:
-          - data:
-              action: "on"
-            action: python_script.hvac_pre_cool_and_time_of_use
+  - variables:
+      time_action_map:
+        "14:00": decrease_1
+        "15:00": decrease_1
+        "16:00": decrease_1
+        "17:55": "off"
+        "21:05": "on"
+      current_time: "{{ now().strftime('%H:%M') }}"
+  - data:
+      action: "{{ time_action_map[current_time] }}"
+    action: python_script.hvac_pre_cool_and_time_of_use
 mode: single
