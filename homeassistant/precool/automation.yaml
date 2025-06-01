@@ -1,22 +1,24 @@
-alias: HVAC Pre-cool and TOU Actions
-description: Run HVAC pre-cool script with different actions on specific summer times
+alias: HVAC for time-of-use rates
+description: >-
+  HVAC shallow, long cool starting at 1am in summer to take advantage of
+  time-of-use rates.
 triggers:
   - at:
-      - "14:00:00"
-      - "15:00:00"
-      - "16:00:00"
+      - "00:55:00"
+      - "03:05:00"
+      - "04:05:00"
       - "17:55:00"
       - "21:05:00"
     trigger: time
 conditions:
   - condition: template
-    value_template: "{{ now().month in [4, 5, 6, 7, 8, 9] }}"
+    value_template: "{{ now().month in [5, 6, 7, 8, 9] }}"
 actions:
   - variables:
       time_action_map:
-        "14:00": decrease_1
-        "15:00": decrease_1
-        "16:00": decrease_1
+        "00:55": decrease_1
+        "03:05": decrease_1
+        "04:05": decrease_1
         "17:55": "off"
         "21:05": "on"
       current_time: "{{ now().strftime('%H:%M') }}"
