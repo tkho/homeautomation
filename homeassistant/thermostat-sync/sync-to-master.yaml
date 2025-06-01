@@ -1,0 +1,17 @@
+alias: "Sync Thermostat to Master Thermostat"
+trigger:
+  - platform: state
+    entity_id: climate.thermostat
+    attribute: temperature
+condition:
+  # Prevent loop: Only propagate if master_thermostat's temperature is *different*
+  # from thermostat's temperature. This avoids a back-and-forth setting.
+  - condition: template
+    value_template: >
+      {{ state_attr('climate.master_thermostat', 'temperature') | float != state_attr('climate.thermostat', 'temperature') | float }}
+action:
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.master_thermostat
+    data_template:
+      temperature: "{{ state_attr('climate.thermostat', 'temperature') | float }}"

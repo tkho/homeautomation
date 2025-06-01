@@ -1,0 +1,23 @@
+alias: "Sync Master Thermostat to Other Thermostats"
+trigger:
+  - platform: state
+    entity_id: climate.master_thermostat
+    attribute: temperature # Trigger only on temperature changes
+condition:
+  # Ensure the master thermostat actually has a temperature set
+  - condition: template
+    value_template: "{{ states('climate.master_thermostat') is not none and state_attr('climate.master_thermostat', 'temperature') is not none }}"
+action:
+  # Set climate.thermostat to master_thermostat's temperature
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.thermostat
+    data_template:
+      temperature: "{{ state_attr('climate.master_thermostat', 'temperature') | float }}"
+
+  # Set climate.thermostat_2 to master_thermostat's temperature + 2 degrees
+  - service: climate.set_temperature
+    target:
+      entity_id: climate.thermostat_2
+    data_template:
+      temperature: "{{ (state_attr('climate.master_thermostat', 'temperature') | float) + 2 }}"
