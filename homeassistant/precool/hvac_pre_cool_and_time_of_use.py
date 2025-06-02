@@ -12,7 +12,7 @@ thermostats = {
         "entity_id": "climate.thermostat_2",
         "low": float(hass.states.get("input_number.thermostat_upstairs_low").state),
         "high": float(hass.states.get("input_number.thermostat_upstairs_high").state),
-        "away": 88.
+        "away": 87.
     }
 }
 
