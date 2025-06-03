@@ -1,0 +1,20 @@
+alias: Auto turn off switches after delay
+mode: restart
+trigger:
+  - platform: state
+    entity_id:
+      - switch.tr_plug_4
+    to: "on"
+
+variables:
+  timeouts:
+    switch.tr_plug_4: 3600   # 1 hour
+  triggered_switch: "{{ trigger.entity_id }}"
+  delay_seconds: "{{ timeouts[triggered_switch] }}"
+
+action:
+  - delay:
+      seconds: "{{ delay_seconds }}"
+  - service: switch.turn_off
+    target:
+      entity_id: "{{ triggered_switch }}"
