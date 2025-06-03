@@ -4,11 +4,15 @@ trigger:
   - platform: state
     entity_id:
       - switch.tr_plug_4
+      - switch.ikea_smart_plug_1
+      - switch.ikea_smart_plug_3
     to: "on"
 
 variables:
   timeouts:
     switch.tr_plug_4: 3600   # 1 hour
+    switch.ikea_smart_plug_1: 14400  # 4 hours
+    switch.ikea_smart_plug_3: 14400  # 4 hours
   triggered_switch: "{{ trigger.entity_id }}"
   delay_seconds: "{{ timeouts[triggered_switch] }}"
 
