@@ -1,11 +1,9 @@
 # Pre-cooling
 
-Home Assistant automation + python_script for pre-cooling.
+Home Assistant automation + python_script for cooling around time-of-use rates.
 
-* active April to September
+* active May to September
   * Note: NV Energy TOU peak is June to September, 6 to 9pm
-* cools by 1 degree every 45 minutes starting at 3:15
 * off from 5:55pm - 9:05pm
-* needs 2 inputs per thermostat, `low` and `high` which is the range to keep the house at
-
-Disclaimer: Product of vibe-coding.
+* at 9:05, cooling set to 79 degrees -- the high-end-of-comfort
+* slowly cools to 76 starting at 1am to when it's higher HVAC efficiency.
