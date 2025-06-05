@@ -1,0 +1,28 @@
+alias: Water Leak Detected (Hourly Notification)
+description: >-
+  Send a push notification if any water sensor detects a leak, but no more than
+  once per hour.
+triggers:
+  - entity_id:
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_2
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_3
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_4
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_5
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_6
+    to: "on"
+    trigger: state
+conditions:
+  - condition: template
+    value_template: >
+      {% set last =
+      state_attr('automation.water_leak_detected_hourly_notification',
+      'last_triggered') %} {{ (now() - last).total_seconds() > 3600 if last else
+      true }}
+actions:
+  - data:
+      title: 🚨 Water Leak Detected
+      message: |
+        One of the leak sensors has detected water!
+    action: notify.mobile_app_iphone_2023
+mode: single
