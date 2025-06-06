@@ -4,11 +4,15 @@ description: >-
   time-of-use rates.
 triggers:
   - at:
-      - "00:55:00"
+      - "23:55:00"
       - "03:05:00"
       - "04:05:00"
+      - "17:00:00"
       - "17:55:00"
+      - "17:56:00"
       - "21:05:00"
+      - "21:06:00"
+      - "22:06:00"
     trigger: time
 conditions:
   - condition: template
@@ -16,11 +20,15 @@ conditions:
 actions:
   - variables:
       time_action_map:
-        "00:55": decrease_1
+        "23:55": decrease_1
         "03:05": decrease_1
         "04:05": decrease_1
+        "17:00": fan_on_upstairs
         "17:55": "off"
+        "17:56": fan_off_upstairs
         "21:05": "on"
+        "21:06": fan_on_upstairs
+        "22:06": fan_off_upstairs
       current_time: "{{ now().strftime('%H:%M') }}"
   - data:
       action: "{{ time_action_map[current_time] }}"
