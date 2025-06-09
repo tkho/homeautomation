@@ -1,0 +1,27 @@
+alias: Motion - Upstairs Hallway Lights Fade In
+description: ""
+triggers:
+  - entity_id: binary_sensor.hue_motion_3
+    to: "on"
+    trigger: state
+conditions: []
+actions:
+  - data:
+      entity_id:
+        - light.upstairs_hallway_hue_bulb_2
+        - light.upstairs_hallway_hue_bulb
+      transition: 2
+      brightness: 255
+    action: light.turn_on
+  - wait_for_trigger:
+      - entity_id: binary_sensor.hue_motion_3
+        to: "off"
+        trigger: state
+  - delay: "00:00:10"
+  - data:
+      entity_id:
+        - light.upstairs_hallway_hue_bulb_2
+        - light.upstairs_hallway_hue_bulb
+      transition: 2
+    action: light.turn_off
+mode: restart
