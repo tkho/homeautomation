@@ -1,0 +1,44 @@
+alias: Schedule - Switches On/Off (with Month Filtering)
+triggers:
+  - minutes: /1
+    trigger: time_pattern
+actions:
+  - variables:
+      current_time: "{{ now().strftime('%H:%M') }}"
+      current_month: "{{ now().month }}"
+  - repeat:
+      for_each: "{{ schedule.keys() | list }}"
+      sequence:
+        - variables:
+            entity_id: "{{ repeat.item }}"
+            config: "{{ schedule[entity_id] }}"
+        - if:
+            - condition: template
+              value_template: "{{ not config.months or current_month in config.months }}"
+          then:
+            - choose:
+                - conditions:
+                    - condition: template
+                      value_template: "{{ current_time == config.on }}"
+                  sequence:
+                    - target:
+                        entity_id: "{{ entity_id }}"
+                      action: switch.turn_on
+                - conditions:
+                    - condition: template
+                      value_template: "{{ current_time == config.off }}"
+                  sequence:
+                    - target:
+                        entity_id: "{{ entity_id }}"
+                      action: switch.turn_off
+variables:
+  schedule:
+    switch.fan:
+      "on": "15:00"
+      "off": "22:00"
+      months:
+        - 6
+        - 7
+        - 8
+        - 9
+mode: queued
