@@ -1,27 +1,31 @@
 alias: Motion - Upstairs Hallway Lights Fade In
-description: ""
 triggers:
   - entity_id: binary_sensor.hue_motion_3
     to: "on"
     trigger: state
-conditions: []
 actions:
   - data:
       entity_id:
         - light.upstairs_hallway_hue_bulb_2
         - light.upstairs_hallway_hue_bulb
       transition: 2
-      brightness: 255
+      brightness: "{{ brightness_level }}"
     action: light.turn_on
   - wait_for_trigger:
       - entity_id: binary_sensor.hue_motion_3
         to: "off"
         trigger: state
-  - delay: "00:00:10"
+  - delay: "00:00:08"
   - data:
       entity_id:
         - light.upstairs_hallway_hue_bulb_2
         - light.upstairs_hallway_hue_bulb
-      transition: 2
+      transition: 4
     action: light.turn_off
+variables:
+  night_brightness: 75
+  day_brightness: 255
+  now_hour: "{{ now().hour }}"
+  is_night: "{{ now_hour >= 23 or now_hour < 6 }}"
+  brightness_level: "{{ night_brightness if is_night else day_brightness }}"
 mode: restart
