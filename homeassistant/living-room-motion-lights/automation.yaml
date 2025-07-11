@@ -17,11 +17,31 @@ actions:
           - condition: numeric_state
             entity_id: sensor.hue_motion_sensor_illuminance
             below: 10
+          - condition: not
+            conditions:
+              - condition: time
+                after: "23:00:00"
+                before: "07:00:00"
         sequence:
           - target:
               entity_id: switch.living_room_lights
             action: switch.turn_on
             data: {}
+          - target:
+              entity_id: light.living_room_lights
+            action: light.turn_on
+            data: {}
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.hue_motion_sensor
+            state: "on"
+          - condition: numeric_state
+            entity_id: sensor.hue_motion_sensor_illuminance
+            below: 10
+          - condition: time
+            after: "23:00:00"
+            before: "07:00:00"
+        sequence:
           - target:
               entity_id: light.living_room_lights
             action: light.turn_on
