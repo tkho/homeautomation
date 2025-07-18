@@ -40,9 +40,6 @@ actions:
           - condition: numeric_state
             entity_id: sensor.hue_motion_sensor_illuminance
             below: 10
-          - condition: time
-            after: "19:00:00"
-            before: "08:00:00"
         sequence:
           - target:
               entity_id: light.living_room_lights
