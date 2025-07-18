@@ -23,10 +23,15 @@ actions:
                 after: "19:00:00"
                 before: "08:00:00"
         sequence:
-          - target:
-              entity_id: switch.living_room_lights
-            action: switch.turn_on
-            data: {}
+          - if:
+              - condition: state
+                entity_id: input_boolean.motion_lights_master_switch
+                state: "on"
+            then:
+              - target:
+                  entity_id: switch.living_room_lights
+                action: switch.turn_on
+                data: {}
           - target:
               entity_id: light.living_room_lights
             action: light.turn_on
