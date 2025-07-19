@@ -7,6 +7,7 @@ triggers:
       - "22:05:00"
       - "23:05:00"
       - "04:05:00"
+      - "17:40:00"
       - "17:55:00"
       - "21:05:00"
     trigger: time
@@ -19,6 +20,7 @@ actions:
         "22:05": decrease_1
         "23:05": decrease_1
         "04:05": decrease_1
+        "17:40": decrease_1
         "17:55": "off"
         "21:05": "on"
       current_time: "{{ now().strftime('%H:%M') }}"
