@@ -1,0 +1,29 @@
+alias: Front Lights - Sunset to Sunrise
+description: ""
+triggers:
+  - event: sunset
+    trigger: sun
+  - event: sunrise
+    trigger: sun
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: sun
+            before: sunrise
+        sequence:
+          - target:
+              entity_id: light.front_lights
+            action: light.turn_off
+            data: {}
+      - conditions:
+          - condition: sun
+            after: sunset
+        sequence:
+          - target:
+              entity_id: light.front_lights
+            data:
+              color_temp_kelvin: 2700
+              brightness_pct: 5
+            action: light.turn_on
+mode: single
