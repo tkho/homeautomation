@@ -55,6 +55,7 @@ actions:
                 - 100
                 - 0
               brightness_pct: 41
+              transition: 4
       - conditions:
           - condition: state
             entity_id: binary_sensor.hue_motion_sensor
