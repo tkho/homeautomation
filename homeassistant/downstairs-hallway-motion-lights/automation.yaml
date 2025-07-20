@@ -1,0 +1,62 @@
+alias: Downstairs Hallway Motion Lights
+triggers:
+  - entity_id: sensor.tr_plug_1_power_factor
+    above: 35
+    trigger: numeric_state
+  - entity_id: sensor.tr_plug_2_power_factor
+    above: 35
+    trigger: numeric_state
+  - entity_id: sensor.tr_plug_3_power_factor
+    above: 35
+    trigger: numeric_state
+  - entity_id: sensor.tr_plug_1_power_factor
+    below: 35
+    for: "00:00:01"
+    trigger: numeric_state
+  - entity_id: sensor.tr_plug_2_power_factor
+    below: 35
+    for: "00:00:01"
+    trigger: numeric_state
+  - entity_id: sensor.tr_plug_3_power_factor
+    below: 35
+    for: "00:00:01"
+    trigger: numeric_state
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: numeric_state
+                entity_id: sensor.tr_plug_1_power_factor
+                above: 35
+              - condition: numeric_state
+                entity_id: sensor.tr_plug_2_power_factor
+                above: 35
+              - condition: numeric_state
+                entity_id: sensor.tr_plug_3_power_factor
+                above: 35
+        sequence:
+          - target:
+              entity_id: light.downstairs_hallway_lights
+            data:
+              brightness: 1
+            action: light.turn_on
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: numeric_state
+                entity_id: sensor.tr_plug_1_power_factor
+                below: 35
+              - condition: numeric_state
+                entity_id: sensor.tr_plug_2_power_factor
+                below: 35
+              - condition: numeric_state
+                entity_id: sensor.tr_plug_3_power_factor
+                below: 35
+        sequence:
+          - target:
+              entity_id: light.downstairs_hallway_lights
+            data: {}
+            action: light.turn_off
+mode: restart
