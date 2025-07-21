@@ -10,6 +10,10 @@ triggers:
       - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_4
       - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_5
       - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_6
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_7
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_8
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_9
+      - binary_sensor.ikea_of_sweden_badring_water_leakage_sensor_10
     to: "on"
     trigger: state
 conditions:
