@@ -1,29 +1,27 @@
 alias: Front Lights - Sunset to Sunrise
-description: ""
-triggers:
-  - event: sunset
-    trigger: sun
-  - event: sunrise
-    trigger: sun
-conditions: []
-actions:
+trigger:
+  - platform: state
+    entity_id: sun.sun
+condition: []
+action:
   - choose:
       - conditions:
-          - condition: sun
-            before: sunrise
+          - condition: state
+            entity_id: sun.sun
+            state: above_horizon
         sequence:
-          - target:
+          - service: light.turn_off
+            target:
               entity_id: light.front_lights
-            action: light.turn_off
-            data: {}
       - conditions:
-          - condition: sun
-            after: sunset
+          - condition: state
+            entity_id: sun.sun
+            state: below_horizon
         sequence:
-          - target:
+          - service: light.turn_on
+            target:
               entity_id: light.front_lights
             data:
               color_temp_kelvin: 2700
               brightness_pct: 5
-            action: light.turn_on
 mode: single
