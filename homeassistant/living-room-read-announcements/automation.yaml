@@ -1,0 +1,52 @@
+alias: Read Queued Announcements in Living Room
+description: >-
+  Announce pending to-do items from Living Room Notifications when Hue motion
+  sensor is on, with script logic embedded.
+triggers:
+  - entity_id: binary_sensor.hue_motion_sensor
+    to: "on"
+    trigger: state
+  - trigger: state
+    entity_id: todo.living_room_notifications
+conditions:
+  - condition: and
+    conditions:
+      - condition: template
+        value_template: |
+          {{ states.todo.living_room_notifications.state | int > 0 }}
+      - condition: state
+        entity_id: binary_sensor.hue_motion_sensor
+        state: "on"
+actions:
+  - data:
+      status: needs_action
+    target:
+      entity_id: todo.living_room_notifications
+    response_variable: living_room_notifications_data
+    action: todo.get_items
+  - variables:
+      notification_items: >-
+        {{
+        living_room_notifications_data['todo.living_room_notifications']['items']
+        }}
+  - repeat:
+      count: "{{ notification_items | length }}"
+      sequence:
+        - variables:
+            current_item_index: "{{ repeat.index - 1 }}"
+            current_todo_item: "{{ notification_items[current_item_index] }}"
+        - data:
+            media_player_entity_id: media_player.living_room_display
+            message: "Notification: {{ current_todo_item.summary }}"
+          target:
+            entity_id: tts.google_translate_en_com
+          action: tts.speak
+        - delay:
+            seconds: "{{ (current_todo_item.summary | length * 0.16) | round(0) + 2 }}"
+        - data:
+            item: "{{ current_todo_item.uid }}"
+            status: completed
+          target:
+            entity_id: todo.living_room_notifications
+          action: todo.update_item
+mode: single

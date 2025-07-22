@@ -1,0 +1,30 @@
+alias: Voice Announcements
+description: Add Voice Announcements to Living Room To-Do List
+triggers:
+  - at: "17:55:00"
+    id: high_rates_start_warning
+    trigger: time
+  - at: "21:00:00"
+    id: high_rates_end_announcement
+    trigger: time
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: high_rates_start_warning
+        sequence:
+          - data:
+              item: High power rates are in effect soon.
+            target:
+              entity_id: todo.living_room_notifications
+            action: todo.add_item
+      - conditions:
+          - condition: trigger
+            id: high_rates_end_announcement
+        sequence:
+          - data:
+              item: Power is cheap again.
+            target:
+              entity_id: todo.living_room_notifications
+            action: todo.add_item
+mode: single
