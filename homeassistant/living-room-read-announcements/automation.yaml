@@ -37,12 +37,12 @@ actions:
             current_todo_item: "{{ notification_items[current_item_index] }}"
         - data:
             media_player_entity_id: media_player.living_room_display
-            message: "Notification: {{ current_todo_item.summary }}"
+            message: "Attention! {{ current_todo_item.summary }}"
           target:
             entity_id: tts.google_translate_en_com
           action: tts.speak
         - delay:
-            seconds: "{{ (current_todo_item.summary | length * 0.16) | round(0) + 2 }}"
+            seconds: "{{ (current_todo_item.summary | length * 0.11) | round(0) + 2 }}"
         - data:
             item: "{{ current_todo_item.uid }}"
             status: completed
