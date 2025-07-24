@@ -21,10 +21,16 @@ actions:
         sequence:
           - target:
               entity_id: light.dining_room_lights
-            data:
-              color_temp_kelvin: 2700
-              brightness: 255
-              transition: 4
+            data: |
+              {% if is_state('input_boolean.night_light_mode', 'on') %} {
+                "rgb_color": {{ states('input_text.night_light_color_tr').split(',') | map('int') | list }},
+                "brightness": 255,
+                "transition": 4
+              } {% else %} {
+                "color_temp_kelvin": 2700,
+                "brightness": 255,
+                "transition": 4
+              } {% endif %}
             action: light.turn_on
       - conditions:
           - condition: state
