@@ -17,11 +17,9 @@ actions:
           - condition: numeric_state
             entity_id: sensor.hue_motion_sensor_illuminance
             below: 10
-          - condition: not
-            conditions:
-              - condition: time
-                after: "19:00:00"
-                before: "08:00:00"
+          - condition: state
+            entity_id: input_boolean.night_light_mode
+            state: "off"
         sequence:
           - if:
               - condition: state
@@ -51,7 +49,8 @@ actions:
             action: light.turn_on
             data:
               rgb_color: >
-                {{ states('input_text.night_light_color').split(',') | map('int') | list }}
+                {{ states('input_text.night_light_color_hue').split(',') |
+                map('int') | list }}
               brightness_pct: 41
               transition: 4
       - conditions:
