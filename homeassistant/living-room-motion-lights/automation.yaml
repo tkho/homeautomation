@@ -50,10 +50,8 @@ actions:
               entity_id: light.living_room_lights
             action: light.turn_on
             data:
-              rgb_color:
-                - 255
-                - 100
-                - 0
+              rgb_color: >
+                {{ states('input_text.night_light_color').split(',') | map('int') | list }}
               brightness_pct: 41
               transition: 4
       - conditions:
