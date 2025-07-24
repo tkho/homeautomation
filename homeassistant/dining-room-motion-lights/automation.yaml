@@ -20,20 +20,20 @@ actions:
             below: 18
         sequence:
           - target:
-              entity_id:
-                - switch.smart_plug_6
-                - switch.smart_plug_5
-            action: switch.turn_on
-            data: {}
+              entity_id: light.dining_room_lights
+            data:
+              color_temp_kelvin: 2700
+              brightness: 255
+              transition: 4
+            action: light.turn_on
       - conditions:
           - condition: state
             entity_id: binary_sensor.dining_room_hue_motion_sensor
             state: "off"
         sequence:
           - target:
-              entity_id:
-                - switch.smart_plug_6
-                - switch.smart_plug_5
-            action: switch.turn_off
-            data: {}
+              entity_id: light.dining_room_lights
+            data:
+              transition: 4
+            action: light.turn_off
 mode: restart
