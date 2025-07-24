@@ -1,4 +1,5 @@
 alias: Downstairs Hallway Motion Lights
+description: ""
 triggers:
   - entity_id: sensor.tr_plug_1_power_factor
     above: 35
@@ -42,8 +43,14 @@ actions:
         sequence:
           - target:
               entity_id: light.downstairs_hallway_lights
-            data:
-              brightness: 1
+            data: |
+              {% if is_state('input_boolean.night_light_mode', 'on') %} {
+                "rgb_color": {{ states('input_text.night_light_color_tr').split(',') | map('int') | list }},
+                "brightness_pct": 25
+              } {% else %} {
+                "brightness_pct": 25,
+                "color_temp_kelvin": 2700
+              } {% endif %}
             action: light.turn_on
       - conditions:
           - condition: and
