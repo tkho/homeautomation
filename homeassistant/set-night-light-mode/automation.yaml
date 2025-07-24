@@ -1,0 +1,18 @@
+alias: Auto-set Night Light Mode
+description: Enable night light mode at 7 PM and disable it at 8 AM
+triggers:
+  - at:
+      - "19:00:00"
+      - "08:00:00"
+    trigger: time
+conditions: []
+actions:
+  - variables:
+      time_action_map:
+        "19:00": turn_on
+        "08:00": turn_off
+      current_time: "{{ now().strftime('%H:%M') }}"
+  - target:
+      entity_id: input_boolean.night_light_mode
+    action: input_boolean.{{ time_action_map[current_time] }}
+mode: single
