@@ -43,6 +43,9 @@ actions:
           - condition: numeric_state
             entity_id: sensor.hue_motion_sensor_illuminance
             below: 10
+          - condition: state
+            entity_id: light.living_room_lights
+            state: "off"
         sequence:
           - target:
               entity_id: light.living_room_lights
@@ -52,6 +55,22 @@ actions:
                 {{ states('input_text.night_light_color_hue').split(',') |
                 map('int') | list }}
               brightness_pct: 41
+              transition: 4
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.hue_motion_sensor
+            state: "on"
+          - condition: numeric_state
+            entity_id: sensor.hue_motion_sensor_illuminance
+            below: 10
+        sequence:
+          - target:
+              entity_id: light.living_room_lights
+            action: light.turn_on
+            data:
+              rgb_color: >
+                {{ states('input_text.night_light_color_hue').split(',') |
+                map('int') | list }}
               transition: 4
       - conditions:
           - condition: state
