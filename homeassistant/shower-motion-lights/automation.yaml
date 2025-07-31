@@ -1,0 +1,33 @@
+mode: restart
+trigger:
+  - platform: state
+    entity_id: binary_sensor.tuya_motion_1_occupancy
+    to: 'on'
+    id: turned_on
+  - platform: state
+    entity_id: binary_sensor.tuya_motion_1_occupancy
+    to: 'off'
+    id: turned_off
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: turned_on
+        sequence:
+          - service: text.set_value
+            target:
+              entity_id: text.tuya_ir_blaster_ir_code_to_send
+            data:
+              value: >-
+                BzwjoxFrAgcC4BUDAVoG4BkDQENAJ0AHwAPgAw/AC0AHwANAJwtaBmsCKpw8I7MIBwI=
+      - conditions:
+          - condition: trigger
+            id: turned_off
+        sequence:
+          - service: text.set_value
+            target:
+              entity_id: text.tuya_ir_blaster_ir_code_to_send
+            data:
+              value: >-
+                B7QjVhF8Au4BQAMAp6AHQAsBfAJAAUAHQAMBMQbgBwMAp+ACE+AFC0AvwANAG8ALwAdAE4ADAXwCQBMLMQanAgSctCOACHwC
+    default: []
