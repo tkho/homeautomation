@@ -1,0 +1,21 @@
+{% set alkaline_pct = states('sensor.tuya_ir_blaster_battery') | int(0) %}
+
+{# This logic corrects a reported alkaline battery percentage for a 2-cell NiMH battery,
+   with an aggressive mapping to keep the percentage high during the long, flat discharge curve. #}
+
+{% if alkaline_pct >= 85 %}
+  {# The device reports this as high, which corresponds to a voltage of ~2.9V or higher.
+     This is a freshly charged NiMH battery. #}
+  100
+{% elif alkaline_pct >= 25 %}
+  {# The device reports a percentage between 25% and 85%. This is the entire range
+     where the NiMH battery is on its flat discharge curve (~2.4V - ~2.2V).
+     We will assume it's still at least 75% full until it leaves this range. #}
+  75
+{% elif alkaline_pct >= 15 %}
+  {# The device is reporting a very low percentage. The NiMH is entering its steep voltage drop ("the cliff"). #}
+  25
+{% else %}
+  {# The voltage is below the device's cutoff point, and the battery is considered discharged. #}
+  0
+{% endif %}

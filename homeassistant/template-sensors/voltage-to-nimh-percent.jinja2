@@ -1,0 +1,17 @@
+{% set mv = states('sensor.adp_ht_lcd_1_voltage') | float(0) %}
+{% set v = mv / 1000 %}
+{% if v > 1.7 %}
+  {# 2 NiMH cells #}
+  {% if v > 2.8 %}100
+  {% elif v > 2.4 %}{{ ((v - 2.4) / 0.4 * 50 + 50) | round(0) }}
+  {% elif v > 2.0 %}{{ ((v - 2.0) / 0.4 * 50) | round(0) }}
+  {% else %}0
+  {% endif %}
+{% else %}
+  {# 1 NiMH cell #}
+  {% if v > 1.4 %}100
+  {% elif v > 1.2 %}{{ ((v - 1.2) / 0.2 * 50 + 50) | round(0) }}
+  {% elif v > 1.0 %}{{ ((v - 1.0) / 0.2 * 50) | round(0) }}
+  {% else %}0
+  {% endif %}
+{% endif %}
