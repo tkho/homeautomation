@@ -1,0 +1,31 @@
+alias: Tablet Charging Control
+description: ""
+triggers:
+  - entity_id: sensor.onn_battery_level
+    below: 35
+    trigger: numeric_state
+  - entity_id: sensor.onn_battery_level
+    above: 65
+    trigger: numeric_state
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: numeric_state
+            entity_id: sensor.onn_battery_level
+            below: 35
+        sequence:
+          - target:
+              entity_id: switch.ikea_smart_plug_4
+            action: switch.turn_on
+            data: {}
+      - conditions:
+          - condition: numeric_state
+            entity_id: sensor.onn_battery_level
+            above: 65
+        sequence:
+          - target:
+              entity_id: switch.ikea_smart_plug_4
+            action: switch.turn_off
+            data: {}
+mode: single
