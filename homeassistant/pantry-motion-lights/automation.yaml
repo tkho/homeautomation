@@ -1,0 +1,30 @@
+alias: Pantry motion lights
+description: ""
+triggers:
+  - entity_id: binary_sensor.tuya_motion_3_occupancy
+    to: "on"
+    trigger: state
+  - entity_id: binary_sensor.tuya_motion_3_occupancy
+    to: "off"
+    for: "00:00:05"
+    trigger: state
+actions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.tuya_motion_3_occupancy
+            state: "on"
+        sequence:
+          - target:
+              entity_id: light.pantry_lights
+            action: light.turn_on
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.tuya_motion_3_occupancy
+            state: "off"
+        sequence:
+          - target:
+              entity_id: light.pantry_lights
+            action: light.turn_off
+            data: {}
+mode: restart
