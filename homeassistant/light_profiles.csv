@@ -1,0 +1,3 @@
+profile,color_x,color_y,brightness,transition
+light.all_lights.default,,,,2
+light.downstairs_bedroom_hue_bulb.default,,,,20
