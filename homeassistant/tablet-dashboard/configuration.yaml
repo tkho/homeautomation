@@ -1,0 +1,292 @@
+views:
+  - title: Home
+    sections:
+      - type: grid
+        cards:
+          - type: custom:clock-weather-card
+            entity: weather.tomorrow_io_home_daily
+            hide_forecast_section: false
+            animated_icon: false
+            time_pattern: HH:mm
+            date_pattern: cccc, MMM d
+            forecast_rows: 1
+          - type: media-control
+            entity: media_player.entertainment_room
+          - type: custom:mushroom-entity-card
+            entity: input_boolean.play_sleep_playlist
+            name: Sleep Playlist
+            icon_type: icon
+            primary_info: name
+            secondary_info: none
+            icon_color: red
+            icon: mdi:sleep
+            tap_action:
+              action: toggle
+            layout: horizontal
+            grid_options:
+              columns: 6
+              rows: 1
+          - type: custom:mushroom-entity-card
+            entity: input_boolean.play_daytime_playlist
+            name: Daytime Playlist
+            icon_type: icon
+            primary_info: name
+            secondary_info: none
+            icon_color: amber
+            icon: mdi:emoticon-cool
+            tap_action:
+              action: toggle
+            layout: horizontal
+            grid_options:
+              columns: 6
+              rows: 1
+        column_span: 1
+      - type: grid
+        cards:
+          - type: custom:week-planner-card
+            calendars:
+              - entity: calendar.family
+            startingDay: today
+            startingDayOffset: 0
+            hideWeekend: false
+            noCardBackground: false
+            compact: false
+            weather:
+              showCondition: true
+              showTemperature: false
+              showLowTemperature: false
+              useTwiceDaily: false
+            locale: en
+            showLocation: true
+            hidePastEvents: false
+            hideDaysWithoutEvents: false
+            hideTodayWithoutEvents: false
+            combineSimilarEvents: false
+            showLegend: false
+            days: '1'
+          - type: custom:week-planner-card
+            calendars:
+              - entity: calendar.family
+            days: '6'
+            startingDay: tomorrow
+            startingDayOffset: 0
+            hideWeekend: false
+            noCardBackground: false
+            compact: true
+            weather:
+              showCondition: true
+              showTemperature: true
+              showLowTemperature: true
+              useTwiceDaily: false
+              entity: weather.tomorrow_io_home_daily
+            locale: en
+            showLocation: true
+            hidePastEvents: false
+            hideDaysWithoutEvents: false
+            hideTodayWithoutEvents: false
+            combineSimilarEvents: false
+            showLegend: false
+            grid_options:
+              columns: 12
+              rows: auto
+            columns:
+              medium: '1'
+              small: '1'
+              extraSmall: '1'
+              extraLarge: '1'
+              large: '1'
+            showNavigation: false
+      - type: grid
+        cards:
+          - graph: line
+            type: sensor
+            entity: sensor.sonoff_snzb_02d_temperature_2
+            detail: 1
+            name: Living Room Temp
+          - graph: line
+            type: sensor
+            entity: sensor.sonoff_snzb_02d_humidity_2
+            detail: 1
+            name: Living Room Humidity
+          - graph: line
+            type: sensor
+            entity: sensor.sonoff_temp_humidity_2_temperature_2
+            detail: 1
+            name: Lucas Room Temp
+          - graph: line
+            type: sensor
+            entity: sensor.sonoff_temp_humidity_2_humidity_2
+            detail: 1
+            name: Lucas Room Humidity
+          - type: custom:bubble-card
+            card_type: climate
+            button_type: switch
+            entity: climate.master_thermostat
+            grid_options:
+              columns: 6
+              rows: auto
+            name: ' '
+            icon: cool
+            scrolling_effect: true
+            sub_button: []
+            show_icon: false
+            show_state: true
+            show_attribute: true
+            attribute: current_temperature
+            show_name: true
+            card_layout: large
+            button_action:
+              tap_action:
+                action: more-info
+          - type: tile
+            entity: input_boolean.motion_lights_master_switch
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            name: Motion Lights
+            hide_state: true
+            icon: mdi:lightbulb-auto
+          - type: tile
+            entity: input_boolean.night_light_mode
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            name: Night Light Mode
+          - type: tile
+            entity: light.front_lights
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:outdoor-lamp
+          - type: tile
+            entity: light.living_room_lights
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:lamps
+          - type: tile
+            entity: light.downstairs_hallway_lights
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            name: Hallway Lights
+            icon: mdi:wall-sconce-round-variant
+          - type: tile
+            entity: alarm_control_panel.henderson_alarm
+            features_position: bottom
+            vertical: false
+            show_entity_picture: false
+            tap_action:
+              action: none
+            grid_options:
+              columns: 6
+              rows: 1
+            name: Alarm
+          - type: tile
+            entity: sensor.active_issues
+            features_position: bottom
+            vertical: true
+            grid_options:
+              columns: 3
+              rows: 2
+            name: System
+            card_mod:
+              style: |
+                ha-card {
+                  background-color: #3d3d31;
+                }
+            visibility:
+              - condition: numeric_state
+                entity: sensor.active_issues
+                above: 0
+          - graph: line
+            type: sensor
+            entity: sensor.system_monitor_processor_use
+            detail: 1
+            name: CPU Critical
+            visibility:
+              - condition: numeric_state
+                entity: sensor.system_monitor_processor_use
+                above: 15
+            card_mod:
+              style: |
+                ha-card {
+                  background-color: #3d3d31;
+                }
+                ha-card .value {
+                  color: #eb0000;
+                  font-weight: 500;
+                }
+          - graph: line
+            type: sensor
+            entity: sensor.system_monitor_disk_usage
+            detail: 1
+            name: Disk Critical
+            visibility:
+              - condition: numeric_state
+                entity: sensor.system_monitor_disk_usage
+                above: 50
+            card_mod:
+              style: |
+                ha-card {
+                  background-color: #3d3d31;
+                }
+                ha-card .value {
+                  color: #eb0000;
+                  font-weight: 500;
+                }
+          - graph: line
+            type: sensor
+            entity: sensor.system_monitor_memory_usage
+            detail: 1
+            name: Mem Critical
+            visibility:
+              - condition: numeric_state
+                entity: sensor.system_monitor_memory_usage
+                above: 70
+            card_mod:
+              style: |
+                ha-card {
+                  background-color: #3d3d31;
+                }
+                ha-card .value {
+                  color: #eb0000;
+                  font-weight: 500;
+                }
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: title
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            icon: ''
+            heading_style: title
+            grid_options:
+              columns: full
+              rows: 4
+        column_span: 2
+      - type: grid
+        cards:
+          - type: custom:battery-state-card
+        column_span: 2
+    type: sections
+    max_columns: 3
+    dense_section_placement: true
+    top_margin: false
+    cards: []
