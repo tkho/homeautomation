@@ -1,28 +1,52 @@
 alias: Tablet Charging Control
 description: ""
 triggers:
+  - entity_id: sensor.ipad_2023_battery_level
+    below: 50
+    id: ipad_low
+    trigger: numeric_state
+  - entity_id: sensor.ipad_2023_battery_level
+    above: 80
+    id: ipad_high
+    trigger: numeric_state
   - entity_id: sensor.onn_battery_level
     below: 50
+    id: onn_low
     trigger: numeric_state
   - entity_id: sensor.onn_battery_level
     above: 80
+    id: onn_high
     trigger: numeric_state
 conditions: []
 actions:
   - choose:
       - conditions:
-          - condition: numeric_state
-            entity_id: sensor.onn_battery_level
-            below: 50
+          - condition: template
+            value_template: "{{ trigger.id == 'ipad_low' }}"
+        sequence:
+          - target:
+              entity_id: switch.smart_plug_4
+            action: switch.turn_on
+            data: {}
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == 'ipad_high' }}"
+        sequence:
+          - target:
+              entity_id: switch.smart_plug_4
+            action: switch.turn_off
+            data: {}
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.id == 'onn_low' }}"
         sequence:
           - target:
               entity_id: switch.ikea_smart_plug_4
             action: switch.turn_on
             data: {}
       - conditions:
-          - condition: numeric_state
-            entity_id: sensor.onn_battery_level
-            above: 80
+          - condition: template
+            value_template: "{{ trigger.id == 'onn_high' }}"
         sequence:
           - target:
               entity_id: switch.ikea_smart_plug_4
