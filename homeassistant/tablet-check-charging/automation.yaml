@@ -1,0 +1,34 @@
+alias: Tablet Charger or Battery Warning
+description: Notify if any tablet charger is inactive or if any tablet is under 30% battery
+triggers:
+  - entity_id: switch.smart_plug_4
+    for:
+      hours: 48
+    trigger: state
+  - entity_id: switch.ikea_smart_plug_4
+    for:
+      hours: 9
+    trigger: state
+  - entity_id: sensor.ipad_2023_battery_level
+    below: 30
+    trigger: numeric_state
+  - entity_id: sensor.onn_battery_level
+    below: 30
+    trigger: numeric_state
+  - entity_id: sensor.samsung_a9_battery_level
+    below: 30
+    trigger: numeric_state
+conditions: []
+actions:
+  - data:
+      message: >
+        ⚠️ Charger or battery issue: {% if
+        states('sensor.ipad_2023_battery_level')|float < 30 %} iPad: {{
+        states('sensor.ipad_2023_battery_level') }}%   {% endif %} {% if
+        states('sensor.onn_battery_level')|float < 30 %} ONN: {{
+        states('sensor.onn_battery_level') }}%   {% endif %} {% if
+        states('sensor.samsung_a9_battery_level')|float < 30 %} A9: {{
+        states('sensor.samsung_a9_battery_level') }}%   {% endif %} Check
+        charger activity and battery levels.
+    action: notify.mobile_app_iphone_2023
+mode: single
