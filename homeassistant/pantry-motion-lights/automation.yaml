@@ -1,26 +1,27 @@
 alias: Pantry motion lights
 description: ""
 triggers:
-  - entity_id: binary_sensor.tuya_motion_3_occupancy
+  - entity_id: binary_sensor.ikea_motion_1_occupancy
     to: "on"
     trigger: state
-  - entity_id: binary_sensor.tuya_motion_3_occupancy
+  - entity_id: binary_sensor.ikea_motion_1_occupancy
     to: "off"
-    for: "00:00:05"
+    for: "00:00:30"
     trigger: state
 actions:
   - choose:
       - conditions:
           - condition: state
-            entity_id: binary_sensor.tuya_motion_3_occupancy
+            entity_id: binary_sensor.ikea_motion_1_occupancy
             state: "on"
         sequence:
           - target:
               entity_id: light.pantry_lights
             action: light.turn_on
+            data: {}
       - conditions:
           - condition: state
-            entity_id: binary_sensor.tuya_motion_3_occupancy
+            entity_id: binary_sensor.ikea_motion_1_occupancy
             state: "off"
         sequence:
           - target:

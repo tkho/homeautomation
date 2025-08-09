@@ -1,11 +1,11 @@
 alias: Downstairs Hallway Motion Lights
 triggers:
-  - entity_id: binary_sensor.tuya_motion_2_occupancy
+  - entity_id: binary_sensor.mmwave_1_presence
     to: "on"
     trigger: state
-  - entity_id: binary_sensor.tuya_motion_2_occupancy
+  - entity_id: binary_sensor.mmwave_1_presence
     to: "off"
-    for: "00:00:01"
+    for: "00:00:30"
     trigger: state
 conditions:
   - condition: state
@@ -15,7 +15,7 @@ actions:
   - choose:
       - conditions:
           - condition: state
-            entity_id: binary_sensor.tuya_motion_2_occupancy
+            entity_id: binary_sensor.mmwave_1_presence
             state: "on"
         sequence:
           - target:
@@ -31,7 +31,7 @@ actions:
             action: light.turn_on
       - conditions:
           - condition: state
-            entity_id: binary_sensor.tuya_motion_2_occupancy
+            entity_id: binary_sensor.mmwave_1_presence
             state: "off"
         sequence:
           - target:
