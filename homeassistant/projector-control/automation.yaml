@@ -1,0 +1,35 @@
+alias: Projector IR control
+description: ""
+triggers:
+  - topic: zigbee2mqtt/Button 1/action
+    trigger: mqtt
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == 'single' }}"
+        sequence:
+          - target:
+              entity_id: text.moes_ir_blaster_ir_code_to_send
+            data:
+              value: "{{ ir_on }}"
+            action: text.set_value
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == 'double' }}"
+        sequence:
+          - repeat:
+              count: 2
+              sequence:
+                - target:
+                    entity_id: text.moes_ir_blaster_ir_code_to_send
+                  data:
+                    value: "{{ ir_off }}"
+                  action: text.set_value
+                - delay:
+                    milliseconds: 2000
+mode: single
+variables:
+  ir_on: B0UjixE8ApYGgAPgCwHgAxtAC0AB4AcH4AcBwB9AAUAL4AcDQAHAE0ABAbSg4HqHAgI8Ag==
+  ir_off: B3QjfRE9ApMGgAPgCwHgAxtAC0AB4A8HwAHAH0ABwAtAB8ADQAHgAwsBsqDg/YdghwICPQI=
