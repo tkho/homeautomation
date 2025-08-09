@@ -23,7 +23,7 @@ actions:
       transition: 4
     action: light.turn_off
 variables:
-  night_brightness: 75
+  night_brightness: 30
   day_brightness: 255
   now_hour: "{{ now().hour }}"
   is_night: "{{ now_hour >= 23 or now_hour < 6 }}"
