@@ -1,0 +1,38 @@
+alias: Master Closet Motion Lights
+description: ""
+triggers:
+  - entity_id: binary_sensor.ikea_motion_2_occupancy
+    to: "on"
+    trigger: state
+  - entity_id: binary_sensor.ikea_motion_2_occupancy
+    to: "off"
+    trigger: state
+actions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.ikea_motion_2_occupancy
+            state: "on"
+        sequence:
+          - data:
+              entity_id: light.master_closet_lights
+              transition: 1
+              brightness: "{{ brightness_level }}"
+            action: light.turn_on
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.ikea_motion_2_occupancy
+            state: "off"
+        sequence:
+          - delay: "00:00:30"
+          - data:
+              entity_id: light.master_closet_lights
+              transition: 4
+            action: light.turn_off
+variables:
+  night_brightness: 75
+  day_brightness: 255
+  now_hour: "{{ now().hour }}"
+  is_night: "{{ now_hour >= 23 or now_hour < 6 }}"
+  brightness_level: "{{ night_brightness if is_night else day_brightness }}"
+mode: restart
