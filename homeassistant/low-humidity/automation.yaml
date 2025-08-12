@@ -1,0 +1,26 @@
+alias: Low Humidity Alert (Hourly Notification)
+description: >
+  Send a push notification if any humidity sensor goes below its threshold, but
+  no more than once per hour.
+triggers:
+  - entity_id: sensor.sonoff_temp_humidity_2_humidity_2
+    below: 38
+    trigger: numeric_state
+  - entity_id: sensor.sonoff_snzb_02d_humidity_2
+    below: 36
+    trigger: numeric_state
+conditions:
+  - condition: template
+    value_template: >
+      {% set last =
+      state_attr('automation.low_humidity_alert_hourly_notification',
+      'last_triggered') %} {{ (now() - last).total_seconds() > 3600 if last else
+      true }}
+actions:
+  - data:
+      title: 🚨 Low Humidity Alert
+      message: >
+        {{ area_name(trigger.entity_id) }} humidity dropped below its threshold.
+        Current: {{ states(trigger.entity_id) }}%
+    action: notify.mobile_app_iphone_2023
+mode: single
