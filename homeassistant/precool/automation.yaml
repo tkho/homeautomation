@@ -1,12 +1,10 @@
 alias: HVAC for time-of-use rates
-description: >-
-  HVAC shallow, long cool starting at 1am in summer to take advantage of
-  time-of-use rates.
+description: HVAC shallow, long cool in summer to take advantage of time-of-use rates.
 triggers:
   - at:
-      - "22:05:00"
-      - "23:05:00"
-      - "04:05:00"
+      - "21:50:00"
+      - "22:40:00"
+      - "23:30:00"
       - "17:40:00"
       - "17:55:00"
       - "21:01:00"
@@ -17,9 +15,9 @@ conditions:
 actions:
   - variables:
       time_action_map:
-        "22:05": decrease_1
-        "23:05": decrease_1
-        "04:05": decrease_1
+        "21:50": decrease_1
+        "22:40": decrease_1
+        "23:30": decrease_1
         "17:40": decrease_1
         "17:55": "off"
         "21:01": "on"
