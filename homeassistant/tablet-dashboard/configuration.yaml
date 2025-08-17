@@ -143,17 +143,17 @@ views:
             primary_info: state
             secondary_info: none
           - type: custom:mushroom-entity-card
+            entity: sensor.air_monitor_lite_7f01_pm25
+            icon: mdi:record-circle
+            name: PM2.5
+            secondary_info: name
+            primary_info: state
+          - type: custom:mushroom-entity-card
             entity: sensor.air_monitor_lite_7f01_pm10
             primary_info: state
             secondary_info: name
             icon: mdi:square-small
-            name: PM2.5
-          - type: custom:mushroom-entity-card
-            entity: sensor.air_monitor_lite_7f01_pm25
-            icon: mdi:record-circle
             name: PM10
-            secondary_info: name
-            primary_info: state
           - type: tile
             entity: input_boolean.motion_lights_master_switch
             features_position: bottom
