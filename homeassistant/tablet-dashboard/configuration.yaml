@@ -138,6 +138,22 @@ views:
             button_action:
               tap_action:
                 action: more-info
+          - type: custom:mushroom-entity-card
+            entity: sensor.air_monitor_lite_7f01_carbon_dioxide
+            primary_info: state
+            secondary_info: none
+          - type: custom:mushroom-entity-card
+            entity: sensor.air_monitor_lite_7f01_pm10
+            primary_info: state
+            secondary_info: name
+            icon: mdi:square-small
+            name: PM2.5
+          - type: custom:mushroom-entity-card
+            entity: sensor.air_monitor_lite_7f01_pm25
+            icon: mdi:record-circle
+            name: PM10
+            secondary_info: name
+            primary_info: state
           - type: tile
             entity: input_boolean.motion_lights_master_switch
             features_position: bottom
@@ -185,6 +201,16 @@ views:
             hide_state: true
             name: Hallway Lights
             icon: mdi:wall-sconce-round-variant
+          - type: tile
+            entity: light.downstairs_bedroom_hue_bulb
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:desk-lamp
+            name: Lucas Room Lights
           - type: tile
             entity: alarm_control_panel.henderson_alarm
             features_position: bottom
