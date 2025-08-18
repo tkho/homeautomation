@@ -1,17 +1,17 @@
 alias: Master Closet Motion Lights
 description: ""
 triggers:
-  - entity_id: binary_sensor.ikea_motion_2_occupancy
+  - entity_id: binary_sensor.ikea_motion_3_occupancy
     to: "on"
     trigger: state
-  - entity_id: binary_sensor.ikea_motion_2_occupancy
+  - entity_id: binary_sensor.ikea_motion_3_occupancy
     to: "off"
     trigger: state
 actions:
   - choose:
       - conditions:
           - condition: state
-            entity_id: binary_sensor.ikea_motion_2_occupancy
+            entity_id: binary_sensor.ikea_motion_3_occupancy
             state: "on"
         sequence:
           - data:
@@ -21,7 +21,7 @@ actions:
             action: light.turn_on
       - conditions:
           - condition: state
-            entity_id: binary_sensor.ikea_motion_2_occupancy
+            entity_id: binary_sensor.ikea_motion_3_occupancy
             state: "off"
         sequence:
           - delay: "00:00:30"
