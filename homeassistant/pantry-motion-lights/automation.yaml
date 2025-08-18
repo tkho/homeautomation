@@ -18,7 +18,8 @@ actions:
           - target:
               entity_id: light.pantry_lights
             action: light.turn_on
-            data: {}
+            data:
+              brightness: 38
       - conditions:
           - condition: state
             entity_id: binary_sensor.ikea_motion_1_occupancy
