@@ -13,7 +13,7 @@ conditions:
     entity_id: input_boolean.motion_lights_master_switch
     state: "on"
   - condition: time
-    after: "23:00:00"
+    after: "20:00:00"
     before: "06:00:00"
 actions:
   - choose:
@@ -29,7 +29,16 @@ actions:
                 - 255
                 - 0
                 - 0
-              brightness_pct: 100
+              brightness: 1
+            action: light.turn_on
+          - target:
+              entity_id: light.ufo_lamp
+            data:
+              rgb_color:
+                - 255
+                - 0
+                - 0
+              brightness: 255
             action: light.turn_on
       - conditions:
           - condition: state
