@@ -1,0 +1,43 @@
+alias: Master Bedroom Motion Light
+description: ""
+triggers:
+  - entity_id: binary_sensor.hue_motion_4
+    to: "on"
+    trigger: state
+  - entity_id: binary_sensor.hue_motion_4
+    to: "off"
+    for: "00:00:30"
+    trigger: state
+conditions:
+  - condition: state
+    entity_id: input_boolean.motion_lights_master_switch
+    state: "on"
+  - condition: time
+    after: "23:00:00"
+    before: "06:00:00"
+actions:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.hue_motion_4
+            state: "on"
+        sequence:
+          - target:
+              entity_id: light.ufo_lamp
+            data:
+              rgb_color:
+                - 255
+                - 0
+                - 0
+              brightness_pct: 100
+            action: light.turn_on
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.hue_motion_4
+            state: "off"
+        sequence:
+          - target:
+              entity_id: light.ufo_lamp
+            data: {}
+            action: light.turn_off
+mode: restart
