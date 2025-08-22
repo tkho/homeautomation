@@ -1,0 +1,60 @@
+alias: Downstairs Bathroom Motion Lights
+description: ""
+triggers:
+  - entity_id: binary_sensor.ikea_motion_2_occupancy
+    to: "on"
+    trigger: state
+  - entity_id: binary_sensor.ikea_motion_2_occupancy
+    to: "off"
+    trigger: state
+  - entity_id: binary_sensor.tuya_motion_1_occupancy
+    to: "on"
+    trigger: state
+  - entity_id: binary_sensor.tuya_motion_1_occupancy
+    to: "off"
+    trigger: state
+actions:
+  - choose:
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.ikea_motion_2_occupancy
+                state: "on"
+              - condition: state
+                entity_id: binary_sensor.tuya_motion_1_occupancy
+                state: "on"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bathroom_lights
+            data:
+              transition: 1
+              brightness_pct: "{{ brightness_level }}"
+            action: light.turn_on
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.ikea_motion_2_occupancy
+            state: "off"
+          - condition: state
+            entity_id: binary_sensor.tuya_motion_1_occupancy
+            state: "off"
+        sequence:
+          - delay: "00:10:00"
+          - condition: state
+            entity_id: binary_sensor.ikea_motion_2_occupancy
+            state: "off"
+          - condition: state
+            entity_id: binary_sensor.tuya_motion_1_occupancy
+            state: "off"
+          - target:
+              entity_id: light.downstairs_bathroom_lights
+            data:
+              transition: 4
+            action: light.turn_off
+variables:
+  night_brightness: 20
+  day_brightness: 50
+  now_hour: "{{ now().hour }}"
+  is_night: "{{ now_hour >= 23 or now_hour < 6 }}"
+  brightness_level: "{{ night_brightness if is_night else day_brightness }}"
+mode: restart
