@@ -1,0 +1,45 @@
+alias: Laundry Room Motion Lights
+description: ""
+triggers:
+  - entity_id:
+      - binary_sensor.tuya_motion_2_occupancy
+      - binary_sensor.tuya_motion_3_occupancy
+    to: "on"
+    trigger: state
+  - entity_id:
+      - binary_sensor.tuya_motion_2_occupancy
+      - binary_sensor.tuya_motion_3_occupancy
+    to: "off"
+    trigger: state
+actions:
+  - choose:
+      - conditions:
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.tuya_motion_2_occupancy
+                state: "on"
+              - condition: state
+                entity_id: binary_sensor.tuya_motion_3_occupancy
+                state: "on"
+        sequence:
+          - target:
+              entity_id: light.laundry_room_lights
+            data:
+              brightness: 150
+              color_temp_kelvin: 4000
+            action: light.turn_on
+      - conditions:
+          - condition: state
+            entity_id: binary_sensor.tuya_motion_2_occupancy
+            state: "off"
+          - condition: state
+            entity_id: binary_sensor.tuya_motion_3_occupancy
+            state: "off"
+        sequence:
+          - delay: "00:01:00"
+          - target:
+              entity_id: light.laundry_room_lights
+            data: {}
+            action: light.turn_off
+mode: restart
