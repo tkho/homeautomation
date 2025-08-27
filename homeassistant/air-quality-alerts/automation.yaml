@@ -1,0 +1,48 @@
+alias: Air Quality Alerts (Hourly Notification)
+description: |
+  Notify when air quality exceeds thresholds.
+triggers:
+  - entity_id: sensor.air_monitor_lite_7f01_carbon_dioxide
+    above: 750
+    for: "01:00:00"
+    trigger: numeric_state
+  - entity_id: sensor.pm25_5min_avg
+    above: 3
+    for: "01:00:00"
+    trigger: numeric_state
+  - entity_id: sensor.pm10_5min_avg
+    above: 5
+    for: "01:00:00"
+    trigger: numeric_state
+  - entity_id: sensor.air_monitor_lite_7f01_carbon_dioxide
+    above: 850
+    for: "00:05:00"
+    trigger: numeric_state
+  - entity_id: sensor.pm25_5min_avg
+    above: 5
+    trigger: numeric_state
+  - entity_id: sensor.pm10_5min_avg
+    above: 15
+    trigger: numeric_state
+conditions:
+  - condition: template
+    value_template: >
+      {% set last =
+      state_attr('automation.air_quality_alerts_hourly_notification','last_triggered')
+      %} {{ (now() - last).total_seconds() > 3600 if last else true }}
+actions:
+  - data:
+      title: 🚨 Air Quality Alert
+      message: >
+        {{ area_name(trigger.entity_id) or 'Home' }} –  {{
+        state_attr(trigger.entity_id,'friendly_name') or
+        trigger.entity_id.split('.')[-1] }} is elevated: {{
+        states(trigger.entity_id) }} {{
+        state_attr(trigger.entity_id,'unit_of_measurement') or '' }}. {% if
+        trigger.for and trigger.for.total_seconds() >= 3600 %}
+          Sustained WHO-level exceedance.
+        {% else %}
+          Air quality spike.
+        {% endif %}
+    action: notify.mobile_app_iphone_2023
+mode: single
