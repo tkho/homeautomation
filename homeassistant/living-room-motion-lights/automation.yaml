@@ -1,4 +1,5 @@
 alias: Living Room Motion Lights
+description: ""
 triggers:
   - entity_id: binary_sensor.hue_motion_sensor
     to: "on"
@@ -27,9 +28,17 @@ actions:
                 state: "on"
             then:
               - target:
-                  entity_id: switch.living_room_lights
-                action: switch.turn_on
-                data: {}
+                  entity_id: light.living_room_accents
+                action: light.turn_on
+                data:
+                  color_temp_kelvin: 2000
+                  brightness_pct: 10
+              - target:
+                  entity_id: light.living_room_accents
+                action: light.turn_on
+                data:
+                  color_temp_kelvin: 2700
+                  brightness_pct: 11
           - target:
               entity_id: light.living_room_lights
             action: light.turn_on
@@ -78,8 +87,8 @@ actions:
             state: "off"
         sequence:
           - target:
-              entity_id: switch.living_room_lights
-            action: switch.turn_off
+              entity_id: light.living_room_accents
+            action: light.turn_off
             data: {}
           - target:
               entity_id: light.living_room_lights
