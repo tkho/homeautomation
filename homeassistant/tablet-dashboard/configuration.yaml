@@ -202,6 +202,15 @@ views:
             name: Hallway Lights
             icon: mdi:wall-sconce-round-variant
           - type: tile
+            entity: light.living_room_accents
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:lamps
+          - type: tile
             entity: light.downstairs_bedroom_hue_bulb
             features_position: bottom
             vertical: false
