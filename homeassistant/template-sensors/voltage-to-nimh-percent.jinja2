@@ -1,5 +1,6 @@
 {% set mv = states('sensor.adp_ht_lcd_1_voltage') | float(0) %}
 {% set v = mv / 1000 %}
+{# set v = state_attr('sensor.black_ir_blaster_1_battery', 'battery_voltage') | float(0) #}
 {% if v > 1.7 %}
   {# 2 NiMH cells #}
   {% if v > 2.8 %}100
