@@ -1,0 +1,351 @@
+views:
+  - title: Home
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: subtitle
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Floor 1 - Cooling
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 200
+              stroke:
+                width: 1
+              legend:
+                show: false
+              yaxis:
+                decimalsInFloat: 1
+            graph_span: 48h
+            series:
+              - entity: sensor.thermostat_air_temperature
+                name: Temp
+                type: line
+                color: '#bb3e03'
+              - entity: climate.thermostat
+                name: Setpoint
+                attribute: temperature
+                type: line
+                color: '#3a86ff'
+              - entity: input_number.thermostat_downstairs_high
+                name: Target
+                type: line
+                color: '#005f73'
+          - type: custom:apexcharts-card
+            header:
+              show: true
+              title: Floor 2 - Cooling
+              show_states: true
+              colorize_states: true
+            apex_config:
+              chart:
+                height: 200
+              stroke:
+                width: 1
+              legend:
+                show: false
+              yaxis:
+                decimalsInFloat: 1
+            graph_span: 48h
+            series:
+              - entity: sensor.thermostat_air_temperature_2
+                name: Temp
+                type: line
+                color: '#0a9396'
+              - entity: climate.thermostat_2
+                name: Setpoint
+                attribute: temperature
+                type: line
+                color: '#8338ec'
+              - entity: input_number.thermostat_upstairs_high
+                name: Target
+                type: line
+                color: '#9b2226'
+          - type: thermostat
+            entity: climate.master_thermostat
+            features:
+              - type: climate-hvac-modes
+                hvac_modes:
+                  - cool
+                  - 'off'
+            grid_options:
+              columns: 12
+              rows: 6
+          - type: thermostat
+            entity: climate.thermostat
+            features:
+              - type: climate-hvac-modes
+              - type: climate-fan-modes
+                style: dropdown
+            grid_options:
+              columns: 6
+              rows: 6
+          - type: thermostat
+            entity: climate.thermostat_2
+            features:
+              - type: climate-hvac-modes
+              - type: climate-fan-modes
+                style: dropdown
+            grid_options:
+              columns: 6
+              rows: 6
+          - chart_type: line
+            period: 5minute
+            type: statistics-graph
+            entities:
+              - sensor.sonoff_temp_humidity_2_humidity_2
+              - sensor.sonoff_snzb_02d_humidity_2
+              - sensor.tuya_ht_2_humidity
+              - sensor.tuya_ht_3_humidity
+              - sensor.sonoff_ht_headless_1_humidity
+            stat_types:
+              - mean
+            title: Downstairs Humidity
+            grid_options:
+              columns: 12
+              rows: 5
+            days_to_show: 2
+            hide_legend: true
+          - chart_type: line
+            period: 5minute
+            type: statistics-graph
+            entities:
+              - sensor.sonoff_snzb_02d_humidity
+              - sensor.sonoff_snzb_02d_humidity_3
+              - sensor.tuya_ht_1_humidity
+              - sensor.tuya_ht_4_humidity
+            stat_types:
+              - mean
+            title: Upstairs Humidity
+            grid_options:
+              columns: 12
+              rows: 5
+            days_to_show: 2
+            hide_legend: true
+        column_span: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: subtitle
+          - chart_type: line
+            period: 5minute
+            type: statistics-graph
+            entities:
+              - sensor.thermostat_air_temperature_2
+              - sensor.sonoff_snzb_02d_temperature
+              - sensor.hue_motion_3_temperature
+              - sensor.hue_motion_4_temperature
+              - sensor.sonoff_snzb_02d_temperature_3
+              - sensor.tuya_ht_1_temperature
+              - sensor.tuya_ht_4_temperature
+            stat_types:
+              - mean
+            title: Upstairs Temperatures
+            grid_options:
+              columns: 24
+              rows: 5
+            days_to_show: 2
+            hide_legend: true
+          - chart_type: line
+            period: 5minute
+            type: statistics-graph
+            entities:
+              - sensor.dining_room_hue_motion_sensor_temperature
+              - sensor.thermostat_air_temperature
+              - sensor.hue_motion_sensor_temperature
+              - sensor.sonoff_temp_humidity_2_temperature_2
+              - sensor.sonoff_snzb_02d_temperature_2
+              - sensor.tuya_ht_3_temperature
+            stat_types:
+              - mean
+            title: Downstairs Temperatures
+            grid_options:
+              columns: 24
+              rows: 5
+            days_to_show: 2
+            hide_legend: true
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: input_number.thermostat_upstairs_high
+                    name: Upstairs High
+                    icon: ''
+                    fill_container: true
+                    card_mod:
+                      style: >
+                        ha-card { text-align: center; --card-primary-font-size:
+                        1em; }
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        icon: mdi:minus
+                        tap_action:
+                          action: call-service
+                          service: input_number.decrement
+                          target:
+                            entity_id: input_number.thermostat_upstairs_high
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+                      - type: custom:mushroom-template-card
+                        icon: mdi:plus
+                        tap_action:
+                          action: call-service
+                          service: input_number.increment
+                          target:
+                            entity_id: input_number.thermostat_upstairs_high
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: input_number.thermostat_downstairs_high
+                    name: Downstairs High
+                    icon: ''
+                    fill_container: true
+                    card_mod:
+                      style: >
+                        ha-card { text-align: center; --card-primary-font-size:
+                        1em; }
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        icon: mdi:minus
+                        tap_action:
+                          action: call-service
+                          service: input_number.decrement
+                          target:
+                            entity_id: input_number.thermostat_downstairs_high
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+                      - type: custom:mushroom-template-card
+                        icon: mdi:plus
+                        tap_action:
+                          action: call-service
+                          service: input_number.increment
+                          target:
+                            entity_id: input_number.thermostat_downstairs_high
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: input_number.thermostat_upstairs_low
+                    name: Upstairs Low
+                    icon: ''
+                    fill_container: true
+                    card_mod:
+                      style: >
+                        ha-card { text-align: center; --card-primary-font-size:
+                        1em; }
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        icon: mdi:minus
+                        tap_action:
+                          action: call-service
+                          service: input_number.decrement
+                          target:
+                            entity_id: input_number.thermostat_upstairs_low
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+                      - type: custom:mushroom-template-card
+                        icon: mdi:plus
+                        tap_action:
+                          action: call-service
+                          service: input_number.increment
+                          target:
+                            entity_id: input_number.thermostat_upstairs_low
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-entity-card
+                    entity: input_number.thermostat_downstairs_low
+                    name: Downstairs Low
+                    icon: ''
+                    fill_container: true
+                    card_mod:
+                      style: >
+                        ha-card { text-align: center; --card-primary-font-size:
+                        1em; }
+                  - type: horizontal-stack
+                    cards:
+                      - type: custom:mushroom-template-card
+                        icon: mdi:minus
+                        tap_action:
+                          action: call-service
+                          service: input_number.decrement
+                          target:
+                            entity_id: input_number.thermostat_downstairs_low
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+                      - type: custom:mushroom-template-card
+                        icon: mdi:plus
+                        tap_action:
+                          action: call-service
+                          service: input_number.increment
+                          target:
+                            entity_id: input_number.thermostat_downstairs_low
+                        card_mod:
+                          style: |
+                            .icon { --mdc-icon-size: 18px; }
+          - type: entities
+            entities:
+              - entity: script.cool_all
+              - entity: script.heat_all
+              - entity: script.cool_away
+              - entity: script.heat_away
+        column_span: 2
+      - type: grid
+        cards: []
+      - type: grid
+        cards: []
+      - type: grid
+        cards:
+          - type: heading
+            heading_style: subtitle
+        column_span: 2
+      - type: grid
+        cards:
+          - type: heading
+            heading: Debug
+            heading_style: subtitle
+          - type: logbook
+            target:
+              device_id:
+                - 65f0cf5cd81e7a011d810b338240ebd1
+                - 22e59fdcc33b318cd4754c7d65c944f8
+          - type: entities
+            entities:
+              - button.node_4_ping
+              - button.node_5_ping
+            grid_options:
+              columns: 12
+              rows: 2
+        column_span: 1
+      - type: grid
+        cards:
+          - type: heading
+            heading: Battery
+            heading_style: subtitle
+          - type: entities
+            entities:
+              - sensor.thermostat_battery_level
+              - binary_sensor.thermostat_low_battery_level
+              - sensor.thermostat_battery_level_2
+              - binary_sensor.thermostat_low_battery_level_2
