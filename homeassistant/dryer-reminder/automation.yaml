@@ -1,0 +1,47 @@
+alias: Dryer Reminder After Wash
+description: Sends hourly dryer reminders after washer finishes or when manually turned on
+triggers:
+  - alias: Washer finished
+    trigger: template
+    value_template: "{{ is_state('sensor.washer_current_status', 'end') }}"
+  - alias: Reminder switch on
+    trigger: state
+    entity_id: input_boolean.dryer_reminder
+    to: "on"
+  - alias: Reminder switch off
+    trigger: state
+    entity_id: input_boolean.dryer_reminder
+    to: "off"
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: Reminder switch off
+        sequence: []
+      - conditions:
+          - condition: trigger
+            id:
+              - Washer finished
+              - Reminder switch on
+        sequence:
+          - target:
+              entity_id: input_boolean.dryer_reminder
+            action: input_boolean.turn_on
+          - repeat:
+              sequence:
+                - target:
+                    entity_id: todo.living_room_notifications
+                  data:
+                    item: Your dryer is ready to run!
+                  action: todo.add_item
+                - delay: "01:00:00"
+              until:
+                - condition: state
+                  entity_id: input_boolean.dryer_reminder
+                  state: "off"
+                - condition: template
+                  value_template: "{{ repeat.index >= 6 }}"
+          - target:
+              entity_id: input_boolean.dryer_reminder
+            action: input_boolean.turn_off
+mode: restart

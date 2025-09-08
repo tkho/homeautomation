@@ -232,6 +232,20 @@ views:
               rows: 1
             name: Alarm
           - type: tile
+            entity: input_boolean.dryer_reminder
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:tumble-dryer-alert
+            visibility:
+              - condition: state
+                entity: input_boolean.dryer_reminder
+                state: 'on'
+            show_entity_picture: false
+          - type: tile
             entity: sensor.active_issues
             features_position: bottom
             vertical: true
