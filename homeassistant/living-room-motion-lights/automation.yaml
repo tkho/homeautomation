@@ -29,13 +29,13 @@ actions:
               entity_id: light.living_room_accents
             action: light.turn_on
             data:
-              color_temp_kelvin: 2700
+              color_temp_kelvin: 2000
               brightness_pct: 10
           - target:
               entity_id: light.living_room_accents
             action: light.turn_on
             data:
-              color_temp_kelvin: 2700
+              color_temp_kelvin: 2000
               brightness_pct: 11
           - target:
               entity_id: light.living_room_lights
@@ -87,9 +87,11 @@ actions:
           - target:
               entity_id: light.living_room_accents
             action: light.turn_off
-            data: {}
+            data:
+              transition: 10
           - target:
               entity_id: light.living_room_lights
             action: light.turn_off
-            data: {}
+            data:
+              transition: 10
 mode: restart
