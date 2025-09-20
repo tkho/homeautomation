@@ -191,6 +191,7 @@ views:
               rows: 1
             hide_state: true
             icon: mdi:lamps
+            name: Living Room Lamps
           - type: tile
             entity: light.downstairs_hallway_lights
             features_position: bottom
@@ -220,6 +221,16 @@ views:
             hide_state: true
             icon: mdi:desk-lamp
             name: Lucas Room Lights
+          - type: tile
+            entity: light.living_room_ceiling_fan_2
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:ceiling-fan-light
+            name: Living Room Ceiling Light
           - type: tile
             entity: alarm_control_panel.henderson_alarm
             features_position: bottom
