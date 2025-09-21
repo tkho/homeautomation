@@ -2,12 +2,13 @@ alias: HVAC for time-of-use rates
 description: HVAC shallow, long cool in summer to take advantage of time-of-use rates.
 triggers:
   - at:
-      - "21:50:00"
-      - "22:40:00"
-      - "23:30:00"
       - "17:40:00"
       - "17:55:00"
       - "21:01:00"
+      - "21:02:00"
+      - "21:50:00"
+      - "22:40:00"
+      - "23:30:00"
     trigger: time
 conditions:
   - condition: template
@@ -15,12 +16,13 @@ conditions:
 actions:
   - variables:
       time_action_map:
-        "21:50": decrease_1
-        "22:40": decrease_1
-        "23:30": decrease_1
         "17:40": decrease_1
         "17:55": "off"
         "21:01": "on"
+        "21:02": decrease_3
+        "21:50": decrease_0
+        "22:40": decrease_0
+        "23:30": decrease_0
       current_time: "{{ now().strftime('%H:%M') }}"
   - data:
       action: "{{ time_action_map[current_time] }}"
