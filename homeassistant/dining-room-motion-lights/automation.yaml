@@ -17,7 +17,7 @@ actions:
             state: "on"
           - condition: numeric_state
             entity_id: sensor.dining_room_hue_motion_sensor_illuminance
-            below: 18
+            below: 50
         sequence:
           - target:
               entity_id: light.dining_room_lights
