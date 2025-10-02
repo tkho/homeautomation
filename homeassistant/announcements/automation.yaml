@@ -12,6 +12,8 @@ actions:
       - conditions:
           - condition: trigger
             id: high_rates_start_warning
+          - condition: template
+            value_template: "{{ now().month in [6, 7, 8, 9] }}"
         sequence:
           - data:
               item: High power rates are in effect soon.
@@ -21,6 +23,8 @@ actions:
       - conditions:
           - condition: trigger
             id: high_rates_end_announcement
+          - condition: template
+            value_template: "{{ now().month in [6, 7, 8, 9] }}"
         sequence:
           - data:
               item: Power is cheap again.
