@@ -2,10 +2,6 @@ alias: Projector IR control
 triggers:
   - topic: zigbee2mqtt/Button 1/action
     trigger: mqtt
-  - entity_id:
-      - media_player.xbox_2
-      - media_player.living_room
-    trigger: state
 actions:
   - choose:
       - conditions:
@@ -21,39 +17,6 @@ actions:
           - condition: template
             value_template: "{{ trigger.platform == 'mqtt' and trigger.payload == 'double' }}"
         sequence:
-          - repeat:
-              count: 2
-              sequence:
-                - target:
-                    entity_id: text.moes_ir_blaster_ir_code_to_send
-                  data:
-                    value: "{{ ir_off }}"
-                  action: text.set_value
-                - delay:
-                    milliseconds: 2000
-      - conditions:
-          - condition: template
-            value_template: |
-              {{ trigger.platform == 'state'
-                 and trigger.to_state.state == 'on' }}
-        sequence:
-          - target:
-              entity_id: text.moes_ir_blaster_ir_code_to_send
-            data:
-              value: "{{ ir_on }}"
-            action: text.set_value
-      - conditions:
-          - condition: template
-            value_template: |
-              {{ trigger.platform == 'state'
-                 and trigger.to_state.state in ['off','standby','unavailable'] }}
-        sequence:
-          - delay:
-              seconds: "{{ debounce_seconds }}"
-          - condition: template
-            value_template: |
-              {{ states('media_player.xbox_2') == 'off'
-                 and states('media_player.living_room') in ['off','standby','unavailable'] }}
           - repeat:
               count: 2
               sequence:
