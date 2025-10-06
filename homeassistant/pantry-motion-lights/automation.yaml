@@ -1,32 +1,45 @@
 alias: Pantry motion lights
 description: ""
 triggers:
-  - entity_id: binary_sensor.ikea_motion_1_occupancy
+  - entity_id:
+      - binary_sensor.ikea_motion_1_occupancy
+      - binary_sensor.pir_mmwave_2_presence
     to: "on"
     trigger: state
-  - entity_id: binary_sensor.ikea_motion_1_occupancy
+  - entity_id:
+      - binary_sensor.ikea_motion_1_occupancy
+      - binary_sensor.pir_mmwave_2_presence
     to: "off"
     for: "00:00:30"
     trigger: state
 actions:
   - choose:
       - conditions:
-          - condition: state
-            entity_id: binary_sensor.ikea_motion_1_occupancy
-            state: "on"
+          - condition: or
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.ikea_motion_1_occupancy
+                state: "on"
+              - condition: state
+                entity_id: binary_sensor.pir_mmwave_2_presence
+                state: "on"
         sequence:
           - target:
               entity_id: light.pantry_lights
-            action: light.turn_on
             data:
               brightness: 38
+            action: light.turn_on
       - conditions:
-          - condition: state
-            entity_id: binary_sensor.ikea_motion_1_occupancy
-            state: "off"
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.ikea_motion_1_occupancy
+                state: "off"
+              - condition: state
+                entity_id: binary_sensor.pir_mmwave_2_presence
+                state: "off"
         sequence:
           - target:
               entity_id: light.pantry_lights
             action: light.turn_off
-            data: {}
 mode: restart
