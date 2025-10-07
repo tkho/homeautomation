@@ -1,0 +1,45 @@
+alias: Ceiling Fan + Lights Control
+description: ""
+triggers:
+  - topic: zigbee2mqtt/Knob 1/action
+    trigger: mqtt
+conditions: []
+actions:
+  - variables:
+      action_type: "{{ trigger.payload }}"
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ action_type == 'single' }}"
+        sequence:
+          - target:
+              entity_id: light.bed_ceiling_fan_down_light
+            action: light.toggle
+          - delay:
+              milliseconds: 1000
+          - target:
+              entity_id: light.bed_ceiling_fan_up_light
+            action: light.toggle
+          - delay:
+              milliseconds: 1000
+          - target:
+              entity_id: light.desk_ceiling_fan_up_light
+            action: light.toggle
+          - delay:
+              milliseconds: 1000
+          - target:
+              entity_id: light.desk_ceiling_fan_down_light
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ action_type == 'double' }}"
+        sequence:
+          - target:
+              entity_id: fan.bed_ceiling_fan
+            action: fan.toggle
+          - delay:
+              milliseconds: 1000
+          - target:
+              entity_id: fan.desk_ceiling_fan
+            action: fan.toggle
+mode: single
