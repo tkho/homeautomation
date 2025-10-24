@@ -1,7 +1,7 @@
 alias: Ceiling Fan + Lights Control
 description: ""
 triggers:
-  - topic: zigbee2mqtt/Knob 1/action
+  - topic: zigbee2mqtt/Button 2/action
     trigger: mqtt
 conditions: []
 actions:
