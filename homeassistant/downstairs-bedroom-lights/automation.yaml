@@ -1,0 +1,43 @@
+alias: Downstairs Bedroom Light Control
+description: ""
+triggers:
+  - topic: zigbee2mqtt/Knob 1/action
+    trigger: mqtt
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == 'single' }}"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bedroom_lights_ha
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload in ['rotate_right', 'rotate_left'] }}"
+        sequence:
+          - variables:
+              current: >-
+                {{ state_attr('light.downstairs_bedroom_lights',
+                'brightness') | default(128) }}
+              step: 0.1
+              direction: >-
+                {% if trigger.payload == 'rotate_right' %}1{% else %}-1{% endif
+                %}
+              perceptual: "{{ (current / 255) ** (1/2.2) }}"
+              new_perceptual_raw: "{{ perceptual + (step * direction) }}"
+              new_perceptual: |
+                {% if new_perceptual_raw < 0 %}
+                  0
+                {% elif new_perceptual_raw > 1 %}
+                  1
+                {% else %}
+                  {{ new_perceptual_raw }}
+                {% endif %}
+              new_brightness: "{{ (new_perceptual ** 2.2 * 255) | round }}"
+          - action: light.turn_on
+            target:
+              entity_id: light.downstairs_bedroom_lights_ha
+            data:
+              brightness: "{{ new_brightness }}"
+mode: queued
