@@ -2,16 +2,8 @@ alias: Downstairs Bathroom Motion Lights
 description: ""
 triggers:
   - entity_id: binary_sensor.ikea_motion_2_occupancy
-    to: "on"
-    trigger: state
-  - entity_id: binary_sensor.ikea_motion_2_occupancy
-    to: "off"
     trigger: state
   - entity_id: binary_sensor.tuya_motion_1_occupancy
-    to: "on"
-    trigger: state
-  - entity_id: binary_sensor.tuya_motion_1_occupancy
-    to: "off"
     trigger: state
 actions:
   - choose:
@@ -52,9 +44,9 @@ actions:
               transition: 4
             action: light.turn_off
 variables:
-  night_brightness: 20
+  night_brightness: 5
   day_brightness: 50
   now_hour: "{{ now().hour }}"
-  is_night: "{{ now_hour >= 23 or now_hour < 6 }}"
+  is_night: "{{ now_hour >= 21 or now_hour < 8 }}"
   brightness_level: "{{ night_brightness if is_night else day_brightness }}"
 mode: restart
