@@ -23,12 +23,26 @@ actions:
                 entity_id: binary_sensor.tuya_motion_3_occupancy
                 state: "on"
         sequence:
-          - target:
-              entity_id: light.laundry_room_lights
-            data:
-              brightness: 150
-              color_temp_kelvin: 4000
-            action: light.turn_on
+          - choose:
+              - conditions:
+                  - condition: time
+                    after: "20:00:00"
+                    before: "07:00:00"
+                sequence:
+                  - target:
+                      entity_id: light.laundry_room_lights
+                    data:
+                      brightness: 20
+                      color_temp_kelvin: 4000
+                    action: light.turn_on
+              - conditions: []
+                sequence:
+                  - target:
+                      entity_id: light.laundry_room_lights
+                    data:
+                      brightness: 150
+                      color_temp_kelvin: 4000
+                    action: light.turn_on
       - conditions:
           - condition: state
             entity_id: binary_sensor.tuya_motion_2_occupancy
