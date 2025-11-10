@@ -14,12 +14,29 @@ actions:
             action: light.toggle
       - conditions:
           - condition: template
+            value_template: "{{ trigger.payload == 'double' }}"
+        sequence:
+          - action: switch.toggle
+            target:
+              entity_id: >-
+                switch.adaptive_lighting_sleep_mode_downstairs_bedroom_adaptive_lights
+          - action: adaptive_lighting.change_switch_settings
+            target:
+              entity_id: switch.adaptive_lighting_downstairs_bedroom_adaptive_lights
+            data:
+              use_defaults: current
+              prefer_rgb_color: >-
+                {{
+                is_state('switch.adaptive_lighting_sleep_mode_downstairs_bedroom_adaptive_lights',
+                'on') }}
+      - conditions:
+          - condition: template
             value_template: "{{ trigger.payload in ['rotate_right', 'rotate_left'] }}"
         sequence:
           - variables:
               current: >-
-                {{ state_attr('light.downstairs_bedroom_lights',
-                'brightness') | default(128) }}
+                {{ state_attr('light.downstairs_bedroom_lights', 'brightness') |
+                default(128) }}
               step: 0.1
               direction: >-
                 {% if trigger.payload == 'rotate_right' %}1{% else %}-1{% endif
