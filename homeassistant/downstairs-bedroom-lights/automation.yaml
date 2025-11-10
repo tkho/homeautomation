@@ -3,10 +3,12 @@ description: ""
 triggers:
   - topic: zigbee2mqtt/Knob 1/action
     trigger: mqtt
-  - platform: time
-    at: "05:45:00"
-  - platform: time
-    at: "20:00:00"
+  - at: "05:45:00"
+    id: night_mode_off
+    trigger: time
+  - at: "20:00:00"
+    id: night_mode_on
+    trigger: time
 actions:
   - choose:
       - conditions:
@@ -35,7 +37,7 @@ actions:
                 'on') }}
       - conditions:
           - condition: template
-            value_template: "{{ trigger.platform == 'time' and trigger.now().strftime('%H:%M') == '05:45' }}"
+            value_template: "{{ trigger.id == 'night_mode_off' }}"
         sequence:
           - action: switch.turn_off
             target:
@@ -49,7 +51,7 @@ actions:
               prefer_rgb_color: false
       - conditions:
           - condition: template
-            value_template: "{{ trigger.platform == 'time' and trigger.now().strftime('%H:%M') == '20:00' }}"
+            value_template: "{{ trigger.id == 'night_mode_on' }}"
         sequence:
           - action: switch.turn_on
             target:
