@@ -3,6 +3,8 @@ description: ""
 triggers:
   - topic: zigbee2mqtt/Knob 1/action
     trigger: mqtt
+  - topic: zigbee2mqtt/Downstairs Bedroom 4-Switch/action
+    trigger: mqtt
   - at: "05:45:00"
     id: night_mode_off
     trigger: time
@@ -20,7 +22,42 @@ actions:
             action: light.toggle
       - conditions:
           - condition: template
-            value_template: "{{ trigger.payload == 'double' }}"
+            value_template: "{{ trigger.payload == '1_single' }}"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bedroom_bedside_left
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '2_single' }}"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bedroom_bedside_right
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '3_single' }}"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bedroom_ceiling_light
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '4_single' }}"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bedroom_corner_lamp
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '4_double' }}"
+        sequence:
+          - target:
+              entity_id: light.downstairs_bedroom_hue_bulb
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload in ['double', '1_double'] }}"
         sequence:
           - action: switch.toggle
             target:
