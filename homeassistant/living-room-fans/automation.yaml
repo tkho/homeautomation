@@ -1,0 +1,35 @@
+alias: Living Room Fan Control
+description: ""
+triggers:
+  - topic: zigbee2mqtt/Living Room 4-Switch/action
+    trigger: mqtt
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '1_single' }}"
+        sequence:
+          - target:
+              entity_id: fan.living_room_ceiling_fan_2
+            action: fan.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '2_single' }}"
+        sequence:
+          - target:
+              entity_id: fan.kitchen_ceiling_fan
+            action: fan.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '3_single' }}"
+        sequence:
+          - target:
+              entity_id: light.living_room_ceiling_fan_2
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '4_single' }}"
+        sequence:
+          - target:
+              entity_id: light.kitchen_ceiling_fan
+            action: light.toggle
