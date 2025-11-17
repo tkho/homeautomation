@@ -1,0 +1,26 @@
+alias: Garage Motion Lights
+description: ""
+triggers:
+  - entity_id: binary_sensor.garage_motion_sensor_1_motion_detection
+    to: "on"
+    trigger: state
+conditions:
+  - condition: sun
+    after: sunset
+    after_offset: "-01:00:00"
+    before: sunrise
+    before_offset: "01:00:00"
+actions:
+  - target:
+      entity_id: switch.garage_lights
+    action: switch.turn_on
+  - wait_for_trigger:
+      - entity_id: binary_sensor.garage_motion_sensor_1_motion_detection
+        to: "off"
+        for:
+          seconds: 30
+        trigger: state
+  - target:
+      entity_id: switch.garage_lights
+    action: switch.turn_off
+mode: restart
