@@ -25,7 +25,7 @@ actions:
             state: "on"
           - condition: time
             after: "20:00:00"
-            before: "06:00:00"
+            before: "08:00:00"
         sequence:
           - target:
               entity_id: light.ufo_lamp
