@@ -5,7 +5,7 @@ triggers:
     trigger: mqtt
   - topic: zigbee2mqtt/Downstairs Bedroom 4-Switch/action
     trigger: mqtt
-  - at: "05:45:00"
+  - at: "09:00:00"
     id: night_mode_off
     trigger: time
   - at: "20:00:00"
