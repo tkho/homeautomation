@@ -28,7 +28,8 @@ actions:
             before: "08:00:00"
         sequence:
           - target:
-              entity_id: light.ufo_lamp
+              entity_id:
+                - light.master_bedroom_lights
             data:
               rgb_color:
                 - 255
@@ -37,7 +38,8 @@ actions:
               brightness: 1
             action: light.turn_on
           - target:
-              entity_id: light.ufo_lamp
+              entity_id:
+                - light.master_bedroom_lights
             data:
               rgb_color:
                 - 255
@@ -60,13 +62,15 @@ actions:
             before: "20:00:00"
         sequence:
           - target:
-              entity_id: light.ufo_lamp
+              entity_id:
+                - light.master_bedroom_lights
             data:
               color_temp_kelvin: 2000
               brightness: 1
             action: light.turn_on
           - target:
-              entity_id: light.ufo_lamp
+              entity_id:
+                - light.master_bedroom_lights
             data:
               color_temp_kelvin: 2000
               brightness: 255
@@ -83,7 +87,8 @@ actions:
             state: "off"
         sequence:
           - target:
-              entity_id: light.ufo_lamp
+              entity_id:
+                - light.master_bedroom_lights
             data: {}
             action: light.turn_off
           - action: switch.turn_off
