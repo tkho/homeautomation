@@ -3,6 +3,8 @@ description: ""
 triggers:
   - topic: zigbee2mqtt/Living Room 4-Switch/action
     trigger: mqtt
+  - topic: zigbee2mqtt/Living Room 4-Switch 2/action
+    trigger: mqtt
 actions:
   - choose:
       - conditions:
