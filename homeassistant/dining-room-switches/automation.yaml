@@ -1,0 +1,33 @@
+alias: Dining Room Switch Control
+description: ""
+triggers:
+  - topic: zigbee2mqtt/Dining Room 2-Switch 1/action
+    trigger: mqtt
+actions:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '1_single' }}"
+        sequence:
+          - target:
+              entity_id: light.dining_room_lights
+            data: |
+              {
+                "rgb_color": {{ states('input_text.night_light_color_tr').split(',') | map('int') | list }},
+                "brightness": 255,
+                "transition": 4
+              }
+            action: light.toggle
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.payload == '2_single' }}"
+        sequence:
+          - target:
+              entity_id: light.dining_room_lights
+            data: |
+              {
+                "color_temp_kelvin": 2700,
+                "brightness": 255,
+                "transition": 4
+              }
+            action: light.turn_on
