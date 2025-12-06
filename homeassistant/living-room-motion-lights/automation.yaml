@@ -94,4 +94,7 @@ actions:
             action: light.turn_off
             data:
               transition: 10
+          - target:
+              entity_id: light.living_room_accents
+            action: light.turn_off
 mode: restart
