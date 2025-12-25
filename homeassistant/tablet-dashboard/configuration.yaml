@@ -174,15 +174,6 @@ views:
             hide_state: true
             name: Night Light Mode
           - type: tile
-            entity: light.front_lights
-            features_position: bottom
-            vertical: false
-            grid_options:
-              columns: 6
-              rows: 1
-            hide_state: true
-            icon: mdi:outdoor-lamp
-          - type: tile
             entity: light.living_room_lights
             features_position: bottom
             vertical: false
@@ -193,16 +184,6 @@ views:
             icon: mdi:lamps
             name: Living Room Lamps
           - type: tile
-            entity: light.downstairs_hallway_lights
-            features_position: bottom
-            vertical: false
-            grid_options:
-              columns: 6
-              rows: 1
-            hide_state: true
-            name: Hallway Lights
-            icon: mdi:wall-sconce-round-variant
-          - type: tile
             grid_options:
               columns: 6
               rows: 1
@@ -212,15 +193,15 @@ views:
             vertical: false
             features_position: bottom
           - type: tile
-            entity: light.downstairs_bedroom_hue_bulb
+            entity: light.kitchen_ceiling_fan
             features_position: bottom
             vertical: false
             grid_options:
               columns: 6
               rows: 1
             hide_state: true
-            icon: mdi:desk-lamp
-            name: Lucas Room Lights
+            icon: mdi:ceiling-fan-light
+            name: Kitchen Ceiling Light
           - type: tile
             entity: light.living_room_ceiling_fan_2
             features_position: bottom
@@ -231,6 +212,16 @@ views:
             hide_state: true
             icon: mdi:ceiling-fan-light
             name: Living Room Ceiling Light
+          - type: tile
+            entity: light.downstairs_bedroom_hue_bulb
+            features_position: bottom
+            vertical: false
+            grid_options:
+              columns: 6
+              rows: 1
+            hide_state: true
+            icon: mdi:desk-lamp
+            name: Lucas Room Red Light
           - type: tile
             entity: alarm_control_panel.henderson_alarm
             features_position: bottom
