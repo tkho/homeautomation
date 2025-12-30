@@ -1,10 +1,10 @@
 alias: Dining Room Motion Lights
 description: ""
 triggers:
-  - entity_id: binary_sensor.dining_room_hue_motion_sensor
+  - entity_id: binary_sensor.dining_room_hue_occupancy
     to: "on"
     trigger: state
-  - entity_id: binary_sensor.dining_room_hue_motion_sensor
+  - entity_id: binary_sensor.dining_room_hue_occupancy
     to: "off"
     for: "00:10:00"
     trigger: state
@@ -13,10 +13,10 @@ actions:
   - choose:
       - conditions:
           - condition: state
-            entity_id: binary_sensor.dining_room_hue_motion_sensor
+            entity_id: binary_sensor.dining_room_hue_occupancy
             state: "on"
           - condition: numeric_state
-            entity_id: sensor.dining_room_hue_motion_sensor_illuminance
+            entity_id: sensor.dining_room_hue_illuminance
             below: 50
         sequence:
           - target:
@@ -34,7 +34,7 @@ actions:
             action: light.turn_on
       - conditions:
           - condition: state
-            entity_id: binary_sensor.dining_room_hue_motion_sensor
+            entity_id: binary_sensor.dining_room_hue_occupancy
             state: "off"
         sequence:
           - target:

@@ -154,12 +154,12 @@ views:
             period: 5minute
             type: statistics-graph
             entities:
-              - sensor.dining_room_hue_motion_sensor_temperature
               - sensor.thermostat_air_temperature
               - sensor.hue_motion_sensor_temperature
               - sensor.sonoff_temp_humidity_2_temperature_2
               - sensor.sonoff_snzb_02d_temperature_2
               - sensor.tuya_ht_3_temperature
+              - sensor.dining_room_hue_temperature
             stat_types:
               - mean
             title: Downstairs Temperatures
